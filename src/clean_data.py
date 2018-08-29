@@ -23,7 +23,9 @@ df = df.dropna()
 missing_locs = df[df['location'].str.contains('None')]
 missing_locs = missing_locs.drop(['location'], axis = 1)
 df = df.drop(df[df['location'].str.contains('None')].index)
-missing_locs['location'] = pd.Series(np.array(miss), index = missing_locs.index)
+missing_locs['location'] = pd.Series(new_locs,index = missing_locs.index)
+cols = df.columns
+missing_locs = missing_locs[cols]
 merged_df = pd.concat([df,missing_locs], axis = 0).reset_index()
 merged_df = merged_df.drop(['index'], axis = 1)
 merged_df = merged_df.drop(merged_df[merged_df['Name'] == 'Argentine Pass Trail'].index)
