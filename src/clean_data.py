@@ -29,6 +29,8 @@ missing_locs = missing_locs[cols]
 merged_df = pd.concat([df,missing_locs], axis = 0).reset_index()
 merged_df = merged_df.drop(['index'], axis = 1)
 merged_df = merged_df.drop(merged_df[merged_df['Name'] == 'Argentine Pass Trail'].index)
+features = features.drop(features[features['Distance'] == 1134.1].index)
+features = features.drop(features[features['Distance'] == 405.6].index)
 
 names = merged_df['Name']
 locations = merged_df['location']
