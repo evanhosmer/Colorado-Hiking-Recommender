@@ -1,6 +1,7 @@
 import pandas as pd
 import numpy as np
 import pickle
+from sklearn.preprocessing import StandardScaler
 
 with open ('../data/locations', 'rb') as fp:
     location = pickle.load(fp)
@@ -56,5 +57,13 @@ route_dict = dict(enumerate(features['route_type'].cat.categories))
 
 features = features.drop(['Difficulty','route_type'],axis = 1)
 df_filtered = features.query('Distance < 30 & elevation_gain < 7000')
+
+### Change All to Categorical
+cat_cols = df_filtered.columns[2:38]
+for c in cat_cols:
+    df_filtered[c] = df_filtered[c].astype('category')
+### Normalize numeric columns
+mms = StandardScaler()
+df_filtered[['Distance','elevation_gain']] = mms.fit_transform(df_filtered[['Distance','elevation_gain']])
 
 df_filtered.to_csv('../data/clean_data.csv', index = False)
