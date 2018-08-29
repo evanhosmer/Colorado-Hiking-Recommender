@@ -33,7 +33,7 @@ merged_df = merged_df.drop(merged_df[merged_df['Name'] == 'Argentine Pass Trail'
 names = merged_df['Name']
 locations = merged_df['location']
 star_list = merged_df['stars']
-features = merged_df.drop(['Name','location', 'Stars'], axis = 1)
+features = merged_df.drop(['Name','location', 'stars'], axis = 1)
 
 features = features.rename(index = str, columns = {'Route Type': 'route_type', 'Elevation Gain': 'elevation_gain'})
 
@@ -44,7 +44,7 @@ features['elevation_gain'] = features['elevation_gain'].str.replace('feet','')
 features['elevation_gain'] = features['elevation_gain'].str.replace('m','')
 features['elevation_gain'] = features['elevation_gain'].str.replace(',','')
 features['elevation_gain'] = pd.to_numeric(features['elevation_gain'])
-features['stars'] = features.stars.astype(float)
+# features['stars'] = features.stars.astype(float)
 features.Difficulty = pd.Categorical(features.Difficulty)
 features['difficulty'] = features.Difficulty.cat.codes.astype('category')
 
@@ -55,5 +55,6 @@ difficulty_dict = dict(enumerate(features['Difficulty'].cat.categories))
 route_dict = dict(enumerate(features['route_type'].cat.categories))
 
 features = features.drop(['Difficulty','route_type'],axis = 1)
+df_filtered = features.query('Distance < 30 & elevation_gain < 7000')
 
-features.to_csv('../data/clean_data.csv', index = False)
+df_filtered.to_csv('../data/clean_data.csv', index = False)
