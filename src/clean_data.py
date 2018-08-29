@@ -42,7 +42,7 @@ features['elevation_gain'] = features['elevation_gain'].str.replace('feet','')
 features['elevation_gain'] = features['elevation_gain'].str.replace('m','')
 features['elevation_gain'] = features['elevation_gain'].str.replace(',','')
 features['elevation_gain'] = pd.to_numeric(features['elevation_gain'])
-
+features['stars'] = features.stars.astype(float)
 features.Difficulty = pd.Categorical(features.Difficulty)
 features['difficulty'] = features.Difficulty.cat.codes.astype('category')
 
