@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="../../../../favicon.ico">
+
+    <title>User Preferences</title>
+
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+
+    <!-- Custom styles for this template -->
+    <link href="/static/css/cover.css" rel="stylesheet">
+  </head>
+
+  <body class="text-center" background = 'static/hiking.jpg'>
+
+    <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
+      <header class="masthead mb-auto">
+        <div class="inner">
+          <h3 class="masthead-brand">Colorado Hiking Trail Recommender</h3>
+          <!-- <nav class="nav nav-masthead justify-content-center">
+            <a class="nav-link active" href="#">Home</a>
+            <a class="nav-link" href="#">Features</a>
+            <a class="nav-link" href="#">Contact</a>
+          </nav> -->
+        </div>
+      </header>
+
+      <main role="main" class="inner cover">
+          <form action="/recommend" method="POST" >
+            <div class="jumbotron">
+              <input name="hike_input" value="{{hike}}">
+              <div class="form-group">
+                <label for="exampleInputEmail1">Location (Park)</label>
+                <input name="location_input" type= "text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter location">
+                <small id="hikeHelp" class="form-text text-muted">Cant remember? Check the parks list <a href="https://www.alltrails.com/us/colorado/parks">here</a> </small>
+              </div>
+              <div class="form-group">
+                <label for="exampleInputPassword1">Difficulty (EASY,MODERATE,HARD)</label>
+                <input name="difficulty_input" type= "text" class="form-control" id="exampleInputPassword1" placeholder="Enter desired difficulty">
+              </div>
+              <div class="form-group">
+                <label for="exampleInputdistance"> Maximum Distance (Optional)</label>
+                <input name="distance_input" type= "number" class="form-control" id="exampleInputdistance" placeholder="Enter maximum distance (miles)">
+              </div>
+              <div class="form-group">
+                <label for="exampleInputstars"> Minimum AllTrails user rating (Optional)</label>
+                <input name="stars_input" type= "number" class="form-control" id="exampleInputdistance" placeholder="Enter minimum rating (0-5)">
+              </div>
+                  <button type="submit" class="btn btn-primary btn-lg">Go to recommendations</button>
+            </div>
+          </form>
+      </main>
+
+      <footer class="mastfoot mt-auto">
+        <div class="inner">
+          <p>Colorado Hiking Recommender for <a href="https://www.galvanize.com/denver-platte/campus">Galvanize</a>, by <a href="https://github.com/evanhosmer">Evan Hosmer</a> Data from <a href="https://www.alltrails.com/us/colorado"> AllTrails</p>
+        </div>
+      </footer>
+    </div>
+
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+  </body>
+</html>
