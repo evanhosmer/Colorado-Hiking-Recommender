@@ -1,8 +1,6 @@
-from flask import Flask, request
-import pickle
 import pandas as pd
 import numpy as np
-from flask import Flask, render_template
+import pickle
 from sklearn.preprocessing import StandardScaler
 from kmodes import kmodes
 from kmodes import kprototypes
@@ -12,12 +10,9 @@ from sklearn.metrics.pairwise import cosine_similarity
 from sklearn.metrics.pairwise import euclidean_distances
 from scipy.spatial import distance
 from scipy.spatial.distance import cdist
-import pdb
 
 with open('../data/links', 'rb') as f:
     links = pickle.load(f)
-
-app = Flask(__name__, static_url_path='/static')
 
 def get_data():
     merged = pd.read_csv('../data/merged.csv')
@@ -70,7 +65,7 @@ def dim_reduct(df):
 
     return dim_red
 
-def recom(hike_idx, df, index_name, df_index, n):
+def recommendations(hike_idx, df, index_name, df_index, n):
     hike = df.iloc[hike_idx].values.reshape(1,10)
     cs = cosine_similarity(hike, df.loc[df_index].values)
     # cs = cosine_similarity(X, y).mean(axis=1)
@@ -80,59 +75,19 @@ def recom(hike_idx, df, index_name, df_index, n):
         recommendations.append(index_name[rec])
     return recommendations
 
-@app.route('/')
-def index():
-    return render_template('index1.html')
-
-@app.route('/submit', methods=['POST','GET'])
-def submit():
-    return render_template('index2.html')
-
-@app.route('/pref', methods=['GET', 'POST'])
-def pref():
-    hike = request.form['hike_input']
-    n = request.form['num_rec']
-    if hike == '':
-        return 'You must select a trail you like'
-    elif n == '':
-        return 'You must select your desired number of recommendations'
-    else:
-        hike = str(request.form['hike_input'])
-        n = int(request.form['num_rec'])
-        return render_template('index3.html', hike=hike, n = n)
-
-@app.route('/recommend', methods=['GET', 'POST'])
-def recommend():
-    hike = str(request.form['hike_input'])
-    n = int(request.form['num_rec'])
-    location = str(request.form['location_input'])
-    difficulty = str(request.form['difficulty_input'])
-    distance = float(request.form['distance_input'])
-    stars = float(request.form['stars_input'])
-
+if __name__ == '__main__':
     merged = pd.read_csv('../data/merged.csv')
     df_famd = pd.read_csv('../data/famd.csv')
     index_name_int = merged['Name'].values
+    hike_name = 'Royal Arch Trail'
     for idx, name in enumerate(index_name_int):
-        if name == hike:
+        if name == hike_name:
             hike_idx = idx
     df = get_data()
     dim_red = dim_reduct(df_famd)
     df_filter = filter_df(df, location = '')
     df2, index, index_name = std_df(df_filter)
-    if len(df2) < n:
-        return render_template('warning.html')
-    recommendations = recom(hike_idx, dim_red, index_name, index, n)
-    df_w_links = pd.read_csv('../data/hikes_w_links.csv')
-    hiking_links = df_w_links[(df_w_links['Name'].isin(recommendations)) & (df_w_links['location'] == location)]['link']
-    recommended = df_w_links[(df_w_links['Name'].isin(recommendations)) & (df_w_links['location'] == location)]['Name']
-    r = recommended.values
-    r2 = r.reshape(r.shape[0],1)
-    l = hiking_links.values
-    l2 = l.reshape(l.shape[0],1)
-    comb = np.concatenate((r2,l2),axis = 1)
-
-    return render_template('index4.html', comb = comb)
-
-if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=8080, threaded=True, debug=True)
+    recommendations = recommendations(hike_idx, dim_red, index_name, index, 5)
+    ind = df[df['Name'].isin(recommendations)]
+    indices = list(ind.index)
+    hiking_links = links[indices]
