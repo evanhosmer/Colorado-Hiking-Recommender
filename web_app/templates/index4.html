@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% block content %}
+
+<style>
+
+.table {
+text-align: center;
+display: flex;
+justify-content: center;
+width: 50%;
+margin-left: auto;
+margin-right: auto;
+}
+@media only screen and (max-width: 1000px) {
+    .table {
+        text-align: center;
+        display: flex;
+        justify-content: flex-start;
+    }
+}
+.title {
+  text-align: center;
+}
+
+html, body {
+        width: 100%;
+}
+</style>
+
+
+<h2 class='title'>Your Trail Recommendations</h2>
+<table class = table>
+  <tr>
+    <th class="not_mapped_style" style="text-align:center"> Trail Name </th>
+    <th class="not_mapped_style" style="text-align:center"> Link </th>
+  </tr>
+    {% for x, y in comb %}
+      <tr>
+        <td> {{x}} </td>
+        <td><a href= "{{y}}"> {{y}} </a></td>
+      </tr>
+    {% endfor %}
+</table>
+
+<div class="row">
+  <div class="col-sm-12">
+    <div class="text-center">
+      <form action = "/">
+        <button type = submit class="btn btn-primary btn-lg" id="singlebutton"> Home</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

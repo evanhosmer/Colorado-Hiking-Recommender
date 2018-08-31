@@ -89,14 +89,40 @@ def recommend():
     dim_red = dim_reduct(df_famd)
     df2, index, index_name = filter_df(df, location, difficulty, distance, stars)
     recommendations = recom(hike_idx, dim_red, index_name, index, n=5)
-    ind = df[df['Name'].isin(recommendations)]
-    indices = list(ind.index)
-    hiking_links = links[indices]
+    df_w_links = pd.read_csv('../data/hikes_w_links.csv')
+    hiking_links = df_w_links[df_w_links['Name'].isin(recommendations)]['link']
+    recommended = df_w_links[df_w_links['Name'].isin(recommendations)]['Name']
+    r = recommended.values
+    r2 = r.reshape(r.shape[0],1)
+    l = hiking_links.values
+    l2 = l.reshape(l.shape[0],1)
+    comb = np.concatenate((r2,l2),axis = 1)
 
+    html = '''
+    <body>
+    <table class="center">
+      <thead>
+        <th>Trail Name</th>
+        <th>AllTrails Link</th>
+      </thead>
+      <tbody>
+        <!-- Here is where the data passed into the template gets inserted -->
+'''
+    for x, y in comb:
+        html += f'''
+          <tr>
+            <td>{x}</td>
+            <td>{y}</td>
+          </tr>
+        '''
+    html += '''
+      </tbody>
+    </table>
+    '''
 
     string = '<h3>Your recommendations are {}</h3>'.format(recommendations)
 
-    return string
+    return render_template('index4.html', comb = comb)
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=8080, threaded=True, debug=True)
