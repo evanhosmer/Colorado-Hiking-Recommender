@@ -4,8 +4,6 @@ import pandas as pd
 import numpy as np
 from flask import Flask, render_template
 from sklearn.preprocessing import StandardScaler
-from kmodes import kmodes
-from kmodes import kprototypes
 import prince
 from scipy.spatial.distance import cosine
 from sklearn.metrics.pairwise import cosine_similarity
