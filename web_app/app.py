@@ -48,11 +48,11 @@ def dim_reduct(df):
 
     return dim_red
 
-def recom(hike_idx, df, index_name, df_index, n=5):
+def recom(hike_idx, df, index_name, df_index, n):
     hike = df.iloc[hike_idx].values.reshape(1,10)
     cs = cosine_similarity(hike, df.loc[df_index].values)
     # cs = cosine_similarity(X, y).mean(axis=1)
-    rec_index = np.argsort(cs)[0][-6:][::-1][1:]
+    rec_index = np.argsort(cs)[0][-(n+1):][::-1][1:]
     recommendations = []
     for rec in rec_index:
         recommendations.append(index_name[rec])
@@ -69,15 +69,17 @@ def submit():
 @app.route('/pref', methods=['GET', 'POST'])
 def pref():
     hike = str(request.form['hike_input'])
-    return render_template('index3.html', hike=hike)
+    n = int(request.form['num_rec'])
+    return render_template('index3.html', hike=hike, n = n)
 
 @app.route('/recommend', methods=['GET', 'POST'])
 def recommend():
     hike = str(request.form['hike_input'])
+    n = int(request.form['num_rec'])
     location = str(request.form['location_input'])
     difficulty = str(request.form['difficulty_input'])
-    distance = int(request.form['distance_input'])
-    stars = int(request.form['stars_input'])
+    distance = float(request.form['distance_input'])
+    stars = float(request.form['stars_input'])
 
     merged = pd.read_csv('../data/merged.csv')
     df_famd = pd.read_csv('../data/famd.csv')
@@ -88,39 +90,17 @@ def recommend():
     df = get_data()
     dim_red = dim_reduct(df_famd)
     df2, index, index_name = filter_df(df, location, difficulty, distance, stars)
-    recommendations = recom(hike_idx, dim_red, index_name, index, n=5)
+    if len(df2) < n:
+        return render_template('warning.html')
+    recommendations = recom(hike_idx, dim_red, index_name, index, n)
     df_w_links = pd.read_csv('../data/hikes_w_links.csv')
-    hiking_links = df_w_links[df_w_links['Name'].isin(recommendations)]['link']
-    recommended = df_w_links[df_w_links['Name'].isin(recommendations)]['Name']
+    hiking_links = df_w_links[(df_w_links['Name'].isin(recommendations)) & (df_w_links['location'] == location)]['link']
+    recommended = df_w_links[(df_w_links['Name'].isin(recommendations)) & (df_w_links['location'] == location)]['Name']
     r = recommended.values
     r2 = r.reshape(r.shape[0],1)
     l = hiking_links.values
     l2 = l.reshape(l.shape[0],1)
     comb = np.concatenate((r2,l2),axis = 1)
-
-    html = '''
-    <body>
-    <table class="center">
-      <thead>
-        <th>Trail Name</th>
-        <th>AllTrails Link</th>
-      </thead>
-      <tbody>
-        <!-- Here is where the data passed into the template gets inserted -->
-'''
-    for x, y in comb:
-        html += f'''
-          <tr>
-            <td>{x}</td>
-            <td>{y}</td>
-          </tr>
-        '''
-    html += '''
-      </tbody>
-    </table>
-    '''
-
-    string = '<h3>Your recommendations are {}</h3>'.format(recommendations)
 
     return render_template('index4.html', comb = comb)
 
