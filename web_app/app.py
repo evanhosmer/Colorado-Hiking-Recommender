@@ -105,10 +105,30 @@ def pref():
 def recommend():
     hike = str(request.form['hike_input'])
     n = int(request.form['num_rec'])
-    location = str(request.form['location_input'])
-    difficulty = str(request.form['difficulty_input'])
-    distance = float(request.form['distance_input'])
-    stars = float(request.form['stars_input'])
+    location = request.form['location_input']
+    difficulty = request.form['difficulty_input']
+    distance = request.form['distance_input']
+    stars = request.form['stars_input']
+
+    if location:
+        location = str(location)
+    else:
+        location = ''
+
+    if difficulty:
+        difficulty = str(difficulty)
+    else:
+        difficulty = ''
+
+    if distance:
+        distance = float(distance)
+    else:
+        distance = ''
+
+    if stars:
+        stars = float(stars)
+    else:
+        stars = ''
 
     merged = pd.read_csv('../data/merged.csv')
     df_famd = pd.read_csv('../data/famd.csv')
@@ -118,14 +138,15 @@ def recommend():
             hike_idx = idx
     df = get_data()
     dim_red = dim_reduct(df_famd)
-    df_filter = filter_df(df, location = '')
+    df_filter = filter_df(df, location = location, difficulty = difficulty, distance = distance,
+    stars = stars)
     df2, index, index_name = std_df(df_filter)
     if len(df2) < n:
         return render_template('warning.html')
     recommendations = recom(hike_idx, dim_red, index_name, index, n)
     df_w_links = pd.read_csv('../data/hikes_w_links.csv')
-    hiking_links = df_w_links[(df_w_links['Name'].isin(recommendations)) & (df_w_links['location'] == location)]['link']
-    recommended = df_w_links[(df_w_links['Name'].isin(recommendations)) & (df_w_links['location'] == location)]['Name']
+    hiking_links = df_w_links[df_w_links['Name'].isin(recommendations)]['link']
+    recommended = df_w_links[df_w_links['Name'].isin(recommendations)]['Name']
     r = recommended.values
     r2 = r.reshape(r.shape[0],1)
     l = hiking_links.values

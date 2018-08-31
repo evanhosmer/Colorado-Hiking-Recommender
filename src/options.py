@@ -85,7 +85,7 @@ if __name__ == '__main__':
             hike_idx = idx
     df = get_data()
     dim_red = dim_reduct(df_famd)
-    df_filter = filter_df(df, location = '')
+    df_filter = filter_df(df, distance = 10)
     df2, index, index_name = std_df(df_filter)
     recommendations = recommendations(hike_idx, dim_red, index_name, index, 5)
     ind = df[df['Name'].isin(recommendations)]
