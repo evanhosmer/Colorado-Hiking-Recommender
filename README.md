@@ -1,16 +1,16 @@
 # Colorado Hiking Recommender
 
 ## Table of Contents
-1. [Project Overview](##Project Overview)
-2. [Technologies](##Technologies used)
-3. [Data](##Data)
-4. [Data Cleaning/Feature Engineering](##Data Cleaning/Feature Engineering)
-5. [Dimensionality Reduction](##Dimensionality Reduction)
-6. [EDA](##EDA)
-7. [Content Based Recommender](##Content Based Recommender)
-8. [Results](##Results)
-9. [Web App](##Web App)
-10. [Future Work](##Future Work)
+1. [Project Overview](#Project Overview)
+2. [Technologies](#Technologies used)
+3. [Data](#Data)
+4. [Data Cleaning/Feature Engineering](#Data Cleaning/Feature Engineering)
+5. [Dimensionality Reduction](#Dimensionality Reduction)
+6. [EDA](#EDA)
+7. [Content Based Recommender](#Content Based Recommender)
+8. [Results](#Results)
+9. [Web App](#Web App)
+10. [Future Work](#Future Work)
 
 ## Project Overview
 
