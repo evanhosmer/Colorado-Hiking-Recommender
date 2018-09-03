@@ -58,6 +58,10 @@ An additional feature scraped from AllTrails was the average star rating by AllT
 
 ## Dimensionality Reduction
 
+The dataset contained 3000 rows and 41 features. Since this recommender relies heavily on distance metrics, dimensionality was going to be a problem. In order to address this, a dimensionality reduction technique known as factor analysis of mixed data (FAMD) was used as a preprocessing step. The python library `prince` contains an implementation of this algorithm and was used to preprocess the dataset.
+
+FAMD is a principal component method dedicated to analyze a data set containing both quantitative and qualitative variables. FAMD is essentially a method that uses a combination of Principal Component Analysis (PCA) for quantitative variables, and multiple correspondence analysis (MCA) for qualitative variables. Quantitative and qualitative variables are normalized during the analysis in order to balance the influence of each set of variables.The ideal amount of components for this technique was chosen by examining the sum of explained variance by the components. The ideal number of components that explained 90% of the variance was 10 components. 
+
 ## EDA
 
 First, the distribution of features was analyzed.
