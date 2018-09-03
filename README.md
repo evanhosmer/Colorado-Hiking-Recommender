@@ -1,16 +1,16 @@
 # Colorado Hiking Recommender
 
 ## Table of Contents
-1. [Project Overview](#Project Overview)
-2. [Technologies](#Technologies used)
-3. [Data](#Data)
-4. [Data Cleaning/Feature Engineering](#Data Cleaning/Feature Engineering)
-5. [Dimensionality Reduction](#Dimensionality Reduction)
-6. [EDA](#EDA)
-7. [Content Based Recommender](#Content Based Recommender)
-8. [Results](#Results)
-9. [Web App](#Web App)
-10. [Future Work](#Future Work)
+1. [Project Overview](#project-Overview)
+2. [Technologies](#technologies-used)
+3. [Data](#data)
+4. [Data Cleaning/Feature Engineering](#data-cleaning-and-feature-engineering)
+5. [Dimensionality Reduction](#dimensionality-reduction)
+6. [EDA](#eda)
+7. [Content Based Recommender](#content-based-recommender)
+8. [Results](#results)
+9. [Web App](#web-app)
+10. [Future Work](#future-work)
 
 ## Project Overview
 
@@ -45,7 +45,7 @@ The categorical features come from content tags on the AllTrails page for each h
 
 There are 37 different content tags that a hike can contain. For each hike, the column contains either a 0 or 1 for each tag for whether it contains or does not contain that content respectively. There are also categorical variables for difficulty (easy, moderate, hard), and route type(out & back, loop, point to point).
 
-## Data Cleaning/Feature Engineering
+## Data Cleaning and Feature Engineering
 
 Because this data was scraped, the initial dataset was fairly messy. The following steps were taken to clean this dataset.
 - Convert categorical features to categorical type
