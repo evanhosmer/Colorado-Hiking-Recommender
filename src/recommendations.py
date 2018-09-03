@@ -15,6 +15,10 @@ with open('../data/links', 'rb') as f:
     links = pickle.load(f)
 
 def get_data():
+    '''
+    INPUT: None.
+    OUTPUT: Dataframe of hiking metadata.
+    '''
     merged = pd.read_csv('../data/merged.csv')
     meta = merged[['Name', 'location', 'stars']]
     df = pd.read_csv('../data/famd.csv')
@@ -23,6 +27,10 @@ def get_data():
     return df2
 
 def filter_df(df, location = None, difficulty = None, distance = None, stars = None):
+    '''
+    INPUT: Dataframe, optional args.
+    OUTPUT: Dataframe, index, hike names.
+    '''
 
     notnones = {}
 
@@ -50,6 +58,10 @@ def filter_df(df, location = None, difficulty = None, distance = None, stars = N
     return df, list(df.index)
 
 def std_df(df):
+    '''
+    INPUT: Dataframe.
+    OUTPUT: Dataframe with numerical columns scaled.
+    '''
     mms = StandardScaler()
     df[['Distance','elevation_gain']] = mms.fit_transform(df[['Distance','elevation_gain']])
     index_name = df['Name'].values
@@ -58,6 +70,10 @@ def std_df(df):
     return df, list(df.index), index_name
 
 def dim_reduct(df):
+    '''
+    INPUT: Dataframe
+    OUTPUT: Dataframe after dimensionality reduction
+    '''
     famd = prince.FAMD(n_components=10, n_iter=10, copy=True, engine='auto',random_state=42)
     famd = famd.fit(df)
     print(sum(famd.explained_inertia_))
@@ -66,6 +82,10 @@ def dim_reduct(df):
     return dim_red
 
 def recommendations(hike_idx, df, index_name, df_index, n):
+    '''
+    INPUT: Hike index, dataframe, hike names, index values after filters, num recs
+    OUTPUT: List of recommended hikes
+    '''
     hike = df.iloc[hike_idx].values.reshape(1,10)
     cs = cosine_similarity(hike, df.loc[df_index].values)
     # cs = cosine_similarity(X, y).mean(axis=1)

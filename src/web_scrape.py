@@ -19,6 +19,10 @@ import csv
 # selectElem = driver.find_element_by_xpath(//*[@id="load_more"])
 
 def get_all_hikes(browser):
+    '''
+    INPUT: browser
+    OUTPUT: soup object with all loaded hikes
+    '''
 
     while True:
         try:
@@ -32,6 +36,10 @@ def get_all_hikes(browser):
     return soup
 
 def get_hike_links(soup):
+    '''
+    INPUT: soup object
+    OUTPUT: links for all hikes
+    '''
 
     li = soup.find_all('h3', {'class': 'name short'})
     links = []
@@ -46,6 +54,10 @@ def get_hike_links(soup):
     return newlinks
 
 def get_hike_data(links):
+    '''
+    INPUT: list of hike links
+    OUTPUT: hike metadata for all hikes
+    '''
     headers = {'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/47.0.2526.106 Safari/537.36'}
     rows = []
     for l in links:
