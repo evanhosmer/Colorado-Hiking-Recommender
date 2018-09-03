@@ -1,5 +1,11 @@
 # Colorado Hiking Recommender
 
+Evan Hosmer
+
+Galvanize Data Science Immersive
+
+September 2018
+
 ## Table of Contents
 1. [Project Overview](#project-Overview)
 2. [Technologies](#technologies-used)

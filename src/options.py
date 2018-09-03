@@ -47,7 +47,7 @@ def filter_df(df, location = None, difficulty = None, distance = None, stars = N
         elif key == 'stars':
             df = df[df[key] > value]
 
-    return df
+    return df, list(df.index)
 
 def std_df(df):
     mms = StandardScaler()
@@ -73,7 +73,7 @@ def recommendations(hike_idx, df, index_name, df_index, n):
     recommendations = []
     for rec in rec_index:
         recommendations.append(index_name[rec])
-    return recommendations
+    return recommendations, rec_index
 
 if __name__ == '__main__':
     merged = pd.read_csv('../data/merged.csv')
@@ -85,9 +85,9 @@ if __name__ == '__main__':
             hike_idx = idx
     df = get_data()
     dim_red = dim_reduct(df_famd)
-    df_filter = filter_df(df, distance = 10)
+    df_filter, index_f = filter_df(df, distance = 10)
     df2, index, index_name = std_df(df_filter)
-    recommendations = recommendations(hike_idx, dim_red, index_name, index, 5)
+    recommendations, rec_index = recommendations(hike_idx, dim_red, index_name, index, 5)
     ind = df[df['Name'].isin(recommendations)]
     indices = list(ind.index)
     hiking_links = links[indices]
