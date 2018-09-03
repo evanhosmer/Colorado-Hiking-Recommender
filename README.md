@@ -122,6 +122,8 @@ The `filter_df` function contains the optional arguments for the user to input a
 
 ## Web App
 
+Web App Link: [http://34.201.122.0:8080/](http://34.201.122.0:8080/)
+
 The structure of the web app is shown in the images below.
 
 ![page1](images/page_1.png)
