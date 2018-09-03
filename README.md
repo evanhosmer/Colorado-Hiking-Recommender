@@ -99,6 +99,7 @@ The distance metric of choice for this recommender was the cosine similarity. Co
 The recommender works in the following way:
 - The user inputs a hike they like.
 - The user inputs how many recommendations they would like.
+- The user inputs however many of the optional arguments that they would like.
 - The cosine similarity is computed from that hike to every other hike in the dataset.
 - The cosine similarities are sorted and the highest values are returned as the recommendations.
 
